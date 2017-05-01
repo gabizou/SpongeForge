@@ -145,7 +145,7 @@ public final class SpongeChunkGeneratorForge extends SpongeChunkGenerator {
 
         boolean enterTerrainPhase = CauseTracker.ENABLED && !(causeTracker.getCurrentState() == GenerationPhase.State.TERRAIN_GENERATION);
         if (enterTerrainPhase) {
-            causeTracker.switchToPhase(GenerationPhase.State.TERRAIN_GENERATION, PhaseContext.start()
+            causeTracker.switchToPhase(GenerationPhase.State.TERRAIN_GENERATION, GenerationPhase.State.TERRAIN_GENERATION.start()
                     .add(NamedCause.of(InternalNamedCauses.WorldGeneration.WORLD, this.world))
                     .addCaptures()
                     .complete());
@@ -209,9 +209,9 @@ public final class SpongeChunkGeneratorForge extends SpongeChunkGenerator {
                 continue;
             }
             if (CauseTracker.ENABLED) {
-                causeTracker.switchToPhase(GenerationPhase.State.POPULATOR_RUNNING, PhaseContext.start()
-                        .add(NamedCause.of(InternalNamedCauses.WorldGeneration.WORLD, this.world))
-                        .add(NamedCause.of(InternalNamedCauses.WorldGeneration.CAPTURED_POPULATOR, type))
+                causeTracker.switchToPhase(GenerationPhase.State.POPULATOR_RUNNING, GenerationPhase.State.POPULATOR_RUNNING.start()
+                        .world(this.world)
+                        .populator(type)
                         .addEntityCaptures()
                         .complete());
             }

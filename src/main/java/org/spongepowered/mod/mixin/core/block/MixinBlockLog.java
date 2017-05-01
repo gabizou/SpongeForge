@@ -40,7 +40,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.common.event.SpongeCommonEventFactory;
 import org.spongepowered.common.event.tracking.CauseTracker;
 import org.spongepowered.common.event.tracking.IPhaseState;
-import org.spongepowered.common.event.tracking.PhaseContext;
 import org.spongepowered.common.event.tracking.phase.block.BlockPhase;
 import org.spongepowered.common.event.tracking.phase.TrackingPhases;
 import org.spongepowered.common.interfaces.world.IMixinWorldServer;
@@ -58,7 +57,7 @@ public abstract class MixinBlockLog extends MixinBlock {
             }
             IMixinWorldServer spongeWorld = (IMixinWorldServer) worldIn;
             final CauseTracker causeTracker = CauseTracker.getInstance();
-            final IPhaseState currentState = causeTracker.getCurrentState();
+            final IPhaseState<?> currentState = causeTracker.getCurrentState();
             final boolean isBlockAlready = currentState.getPhase() != TrackingPhases.BLOCK;
             final boolean isWorldGen = currentState.getPhase().isWorldGeneration(currentState);
             if (isBlockAlready && !isWorldGen) {
@@ -66,7 +65,7 @@ public abstract class MixinBlockLog extends MixinBlock {
                         .location(new Location<World>((World) worldIn, pos.getX(), pos.getY(), pos.getZ()))
                         .state((BlockState) state)
                         .build();
-                causeTracker.switchToPhase(BlockPhase.State.BLOCK_DECAY, PhaseContext.start()
+                causeTracker.switchToPhase(BlockPhase.State.BLOCK_DECAY, BlockPhase.State.BLOCK_DECAY.start()
                         .add(NamedCause.source(locatable))
                         .addCaptures()
                         .complete());

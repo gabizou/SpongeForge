@@ -47,7 +47,7 @@ public final class SpongeForgeEventHooks {
                 return;
             }
             if (worldTickEvent.phase == TickEvent.Phase.START) {
-                CauseTracker.getInstance().switchToPhase(PluginPhase.Listener.PRE_WORLD_TICK_LISTENER, PhaseContext.start()
+                CauseTracker.getInstance().switchToPhase(PluginPhase.Listener.PRE_WORLD_TICK_LISTENER, PluginPhase.Listener.PRE_WORLD_TICK_LISTENER.start()
                     .add(NamedCause.source(listener))
                     .add(NamedCause.of(InternalNamedCauses.Tracker.TICK_EVENT, event))
                     .addCaptures()
@@ -55,7 +55,7 @@ public final class SpongeForgeEventHooks {
                     .complete()
                 );
             } else if (worldTickEvent.phase == TickEvent.Phase.END) {
-                CauseTracker.getInstance().switchToPhase(PluginPhase.Listener.POST_WORLD_TICK_LISTENER, PhaseContext.start()
+                CauseTracker.getInstance().switchToPhase(PluginPhase.Listener.POST_WORLD_TICK_LISTENER, PluginPhase.Listener.POST_WORLD_TICK_LISTENER.start()
                     .add(NamedCause.source(listener))
                     .add(NamedCause.of(InternalNamedCauses.Tracker.TICK_EVENT, event))
                     .addCaptures()
@@ -69,7 +69,7 @@ public final class SpongeForgeEventHooks {
             final TickEvent.ServerTickEvent serverTickEvent = (TickEvent.ServerTickEvent) event;
             if (serverTickEvent.phase == TickEvent.Phase.START) {
                 // Need to prepare all worlds many mods do this
-                CauseTracker.getInstance().switchToPhase(PluginPhase.Listener.PRE_SERVER_TICK_LISTENER, PhaseContext.start()
+                CauseTracker.getInstance().switchToPhase(PluginPhase.Listener.PRE_SERVER_TICK_LISTENER, PluginPhase.Listener.PRE_SERVER_TICK_LISTENER.start()
                     .add(NamedCause.source(listener))
                     .add(NamedCause.of(InternalNamedCauses.Tracker.TICK_EVENT, event))
                     .addCaptures()
@@ -78,7 +78,7 @@ public final class SpongeForgeEventHooks {
                 );
             } else if (serverTickEvent.phase == TickEvent.Phase.END) {
                 // Need to prepare all worlds many mods use this
-                CauseTracker.getInstance().switchToPhase(PluginPhase.Listener.POST_SERVER_TICK_LISTENER, PhaseContext.start()
+                CauseTracker.getInstance().switchToPhase(PluginPhase.Listener.POST_SERVER_TICK_LISTENER, PluginPhase.Listener.POST_SERVER_TICK_LISTENER.start()
                     .add(NamedCause.source(listener))
                     .add(NamedCause.of(InternalNamedCauses.Tracker.TICK_EVENT, event))
                     .addCaptures()

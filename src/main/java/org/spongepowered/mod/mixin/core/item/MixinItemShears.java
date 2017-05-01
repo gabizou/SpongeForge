@@ -61,7 +61,6 @@ import org.spongepowered.common.event.tracking.PhaseContext;
 import org.spongepowered.common.event.tracking.PhaseData;
 import org.spongepowered.common.event.tracking.ItemDropData;
 import org.spongepowered.common.interfaces.entity.IMixinEntity;
-import org.spongepowered.common.interfaces.world.IMixinWorldServer;
 import org.spongepowered.common.item.inventory.util.ItemStackUtil;
 
 import java.util.ArrayList;
@@ -97,7 +96,7 @@ public abstract class MixinItemShears extends Item {
                 // Sponge Start - Handle drops according to the current phase
                 final CauseTracker causeTracker = CauseTracker.getInstance();
                 final PhaseData currentData = causeTracker.getCurrentPhaseData();
-                final IPhaseState currentState = currentData.state;
+                final IPhaseState<?> currentState = currentData.state;
                 final PhaseContext phaseContext = currentData.context;
                 final Random random = EntityUtil.fromNative(entity).getRandom();
                 final IMixinEntity mixinEntity = EntityUtil.toMixin(entity);
