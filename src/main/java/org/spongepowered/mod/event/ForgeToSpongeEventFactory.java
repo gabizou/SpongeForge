@@ -80,7 +80,7 @@ import org.spongepowered.common.SpongeImpl;
 import org.spongepowered.common.SpongeImplHooks;
 import org.spongepowered.common.entity.EntityUtil;
 import org.spongepowered.common.event.SpongeCommonEventFactory;
-import org.spongepowered.common.event.tracking.PhaseData;
+import org.spongepowered.common.event.tracking.PhaseContext;
 import org.spongepowered.common.event.tracking.PhaseTracker;
 import org.spongepowered.common.item.inventory.util.ItemStackUtil;
 import org.spongepowered.common.registry.provider.DirectionFacingProvider;
@@ -235,12 +235,11 @@ public class ForgeToSpongeEventFactory {
         }
 
         final BlockPos pos = forgeEvent.getPos();
-        final PhaseTracker phaseTracker = PhaseTracker.getInstance();
-        final PhaseData data = phaseTracker.getCurrentPhaseData();
+        final PhaseContext<?> context = PhaseTracker.getInstance().getCurrentContext();
 
         EntityPlayer player = forgeEvent.getPlayer();
-        User owner = data.context.getOwner().orElse((User) player);
-        User notifier = data.context.getNotifier().orElse((User) player);
+        User owner = context.getOwner().orElse((User) player);
+        User notifier = context.getNotifier().orElse((User) player);
 
         if (SpongeImplHooks.isFakePlayer(player)) {
             causeStackManager.addContext(EventContextKeys.FAKE_PLAYER, EntityUtil.toPlayer(player));
@@ -266,8 +265,7 @@ public class ForgeToSpongeEventFactory {
             return null;
         }
 
-        final PhaseTracker phaseTracker = PhaseTracker.getInstance();
-        final PhaseData data = phaseTracker.getCurrentPhaseData();
+        final PhaseContext<?> context = PhaseTracker.getInstance().getCurrentContext();
         BlockSnapshot originalSnapshot = ((IMixinBlockSnapshot) forgeEvent.getBlockSnapshot()).createSpongeBlockSnapshot();
         BlockSnapshot
             finalSnapshot =
@@ -276,8 +274,8 @@ public class ForgeToSpongeEventFactory {
             new Transaction<>(originalSnapshot, finalSnapshot)).build();
 
         EntityPlayer player = forgeEvent.getPlayer();
-        User owner = data.context.getOwner().orElse((User) player);
-        User notifier = data.context.getNotifier().orElse((User) player);
+        User owner = context.getOwner().orElse((User) player);
+        User notifier = context.getNotifier().orElse((User) player);
 
         if (SpongeImplHooks.isFakePlayer(player)) {
             causeStackManager.addContext(EventContextKeys.FAKE_PLAYER, EntityUtil.toPlayer(player));
@@ -308,11 +306,10 @@ public class ForgeToSpongeEventFactory {
             builder.add(new Transaction<>(originalSnapshot, finalSnapshot));
         }
 
-        final PhaseTracker phaseTracker = PhaseTracker.getInstance();
-        final PhaseData data = phaseTracker.getCurrentPhaseData();
+        final PhaseContext<?> context = PhaseTracker.getInstance().getCurrentContext();
         EntityPlayer player = forgeEvent.getPlayer();
-        User owner = data.context.getOwner().orElse((User) player);
-        User notifier = data.context.getNotifier().orElse((User) player);
+        User owner = context.getOwner().orElse((User) player);
+        User notifier = context.getNotifier().orElse((User) player);
 
         if (SpongeImplHooks.isFakePlayer(player)) {
             causeStackManager.addContext(EventContextKeys.FAKE_PLAYER, EntityUtil.toPlayer(player));

@@ -72,8 +72,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Nullable;
-
 @NonnullByDefault
 @Mixin(value = EventBus.class, remap = false)
 public abstract class MixinEventBus implements IMixinEventBus {

@@ -41,10 +41,9 @@ import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.common.entity.EntityUtil;
-import org.spongepowered.common.event.tracking.PhaseTracker;
 import org.spongepowered.common.event.tracking.IPhaseState;
 import org.spongepowered.common.event.tracking.PhaseContext;
-import org.spongepowered.common.event.tracking.PhaseData;
+import org.spongepowered.common.event.tracking.PhaseTracker;
 import org.spongepowered.common.item.inventory.util.ItemStackUtil;
 
 import java.util.ArrayList;
@@ -78,9 +77,8 @@ public abstract class MixinItemShears extends Item {
             if (target.isShearable(itemstack, entity.world, pos)) {
                 List<ItemStack> drops = target.onSheared(itemstack, entity.world, pos, EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, itemstack));
                 // Sponge Start - Handle drops according to the current phase
-                final PhaseData currentData = PhaseTracker.getInstance().getCurrentPhaseData();
-                final IPhaseState<?> currentState = currentData.state;
-                final PhaseContext<?> phaseContext = currentData.context;
+                final PhaseContext<?> context = PhaseTracker.getInstance().getCurrentContext();
+                final IPhaseState<?> currentState = context.state;
                 final Random random = EntityUtil.fromNative(entity).getRandom();
                 final double posX = entity.posX;
                 final double posY = entity.posY + 1.0F;
@@ -112,7 +110,7 @@ public abstract class MixinItemShears extends Item {
 
                     // FIFTH - Capture the entity maybe?
                     // this sould be passed into the state, instead of cluttering the code in this area.
-                    if (((IPhaseState) currentState).spawnItemOrCapture(phaseContext, entity, entityitem)) {
+                    if (((IPhaseState) currentState).spawnItemOrCapture(context, entity, entityitem)) {
                         continue;
                     }
 
