@@ -167,7 +167,7 @@ public abstract class MixinForgeHooks {
 
         final PhaseTracker phaseTracker = PhaseTracker.getInstance();
         final PhaseContext<?> peek = phaseTracker.getCurrentContext();
-        final IPhaseState<?> phaseState = peek.state;
+        final IPhaseState<?> phaseState = peek.getState();
         if (!phaseState.isInteraction()) {
             // Sponge Start - Add the changeblockevent.pre check here before we bother with item stacks.
             if (!((IMixinWorld) world).isFake() && SpongeImplHooks.isMainThread()) {
