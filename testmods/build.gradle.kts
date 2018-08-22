@@ -1,9 +1,8 @@
 
-val api : Project = parent!!.project(":SpongeCommon:SpongeAPI")
-extra["api"] = api
-val common : Project = parent!!.project("SpongeCommon")
-extra["common"] = common
+val common : Project by extra { parent!!.project(":SpongeCommon") }
 
+val api : Project by extra { common.project("SpongeAPI") }
+evaluationDependsOn(common.path)
 apply(from = api.file("gradle/sponge.gradle.kts"))
 
 val compileOnly by configurations
